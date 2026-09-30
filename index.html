@@ -16,6 +16,39 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      (function() {
+        function removeNetlifyBadges() {
+          var selectors = [
+            'iframe[src*="netlify"]',
+            'iframe[id*="netlify"]',
+            '[data-netlify-badge]',
+            '#netlify-badge',
+            '.netlify-badge',
+            '[id*="netlify-drawer"]',
+            '[class*="netlify-drawer"]',
+            '[data-netlify-drawer]',
+            'netlify-drawer',
+            'netlify-badge'
+          ];
+          for (var i = 0; i < selectors.length; i++) {
+            var els = document.querySelectorAll(selectors[i]);
+            for (var j = 0; j < els.length; j++) {
+              els[j].remove();
+            }
+          }
+        }
+        removeNetlifyBadges();
+        if (typeof MutationObserver !== 'undefined') {
+          new MutationObserver(removeNetlifyBadges).observe(document.documentElement, {
+            childList: true,
+            subtree: true
+          });
+        }
+        window.addEventListener('DOMContentLoaded', removeNetlifyBadges);
+        window.addEventListener('load', removeNetlifyBadges);
+      })();
+    </script>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

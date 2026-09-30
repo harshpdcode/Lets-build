@@ -54,6 +54,31 @@
     min-height: 100vh;
   }
 
+  /* Netlify Badge & Drawer suppression */
+  iframe[src*="netlify"],
+  iframe[id*="netlify"],
+  [data-netlify-badge],
+  #netlify-badge,
+  .netlify-badge,
+  [id*="netlify-drawer"],
+  [class*="netlify-drawer"],
+  [data-netlify-drawer],
+  netlify-drawer,
+  netlify-badge {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    max-width: 0 !important;
+    max-height: 0 !important;
+    position: absolute !important;
+    top: -9999px !important;
+    left: -9999px !important;
+    z-index: -9999 !important;
+  }
+
   /* Responsive clamp heading scale to prevent overflow on 320px */
   h1 {
     font-size: clamp(1.875rem, 4.5vw + 0.75rem, 3.75rem);
