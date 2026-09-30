@@ -8,9 +8,9 @@ export default function Reveal({
   variant = "fadeUp",
   delay = 0,
   duration = 0.5,
-  yOffset = 24,
+  yOffset = 16,
   as: Component = "div",
-  viewport = { once: true, margin: "-40px" },
+  viewport = { once: true, margin: "0px 0px 80px 0px", amount: "some" },
   ...props
 }) {
   const isReduced = useReducedMotion();

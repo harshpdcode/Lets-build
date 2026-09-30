@@ -25,18 +25,7 @@ import Reveal from "../motion/Reveal";
 import useReducedMotion from "../motion/useReducedMotion";
 import { handleImageError } from "../utils/helpers";
 
-export default function TemplateHome() {
-  const { template, templateId } = useOutletContext();
-  const isDark = templateId === "bold";
-  const isReduced = useReducedMotion();
-
-  // Template 01 Minimal: sliding pill category filter
-  const [minimalFilter, setMinimalFilter] = useState("all");
-
-  // Template 02 Modern: autoship toggle state
-  const [autoshipActive, setAutoshipActive] = useState(false);
-
-  // Template 03 Marketplace: Countdown Timer
+function MarketplaceCountdown() {
   const [timeLeft, setTimeLeft] = useState({ hours: 8, minutes: 42, seconds: 19 });
 
   useEffect(() => {
@@ -50,6 +39,32 @@ export default function TemplateHome() {
     }, 1000);
     return () => clearInterval(timer);
   }, []);
+
+  return (
+    <div className="mt-5 p-3.5 rounded-2xl bg-black/25 backdrop-blur-md inline-flex items-center gap-3">
+      <Clock size={16} className="text-amber-300 animate-pulse" />
+      <span className="text-xs font-bold uppercase tracking-wider text-amber-200">Deals End In:</span>
+      <div className="flex items-center gap-1.5 font-mono font-black text-sm text-white">
+        <span className="bg-white/20 px-2 py-0.5 rounded">{String(timeLeft.hours).padStart(2, "0")}h</span>
+        <span>:</span>
+        <span className="bg-white/20 px-2 py-0.5 rounded">{String(timeLeft.minutes).padStart(2, "0")}m</span>
+        <span>:</span>
+        <span className="bg-white/20 px-2 py-0.5 rounded">{String(timeLeft.seconds).padStart(2, "0")}s</span>
+      </div>
+    </div>
+  );
+}
+
+export default function TemplateHome() {
+  const { template, templateId, isDark: contextDark } = useOutletContext();
+  const isDark = contextDark !== undefined ? contextDark : templateId === "bold";
+  const isReduced = useReducedMotion();
+
+  // Template 01 Minimal: sliding pill category filter
+  const [minimalFilter, setMinimalFilter] = useState("all");
+
+  // Template 02 Modern: autoship toggle state
+  const [autoshipActive, setAutoshipActive] = useState(false);
 
   // Featured products (8 items)
   const featuredProducts = products.filter((p) => p.featured).slice(0, 8);
@@ -80,7 +95,7 @@ export default function TemplateHome() {
   const heroStyles = {
     // 01 CLEAN COMMERCE / MINIMAL: Quiet, ultra-fast fades, crisp typography, no parallax
     minimal: (
-      <div className="bg-neutral-50 border-b border-gray-100 overflow-hidden">
+      <div className={`${isDark ? "bg-[#09090b] text-white border-zinc-800" : "bg-neutral-50 text-gray-900 border-gray-100"} border-b overflow-hidden transition-colors`}>
         <Container className="py-12 md:py-20">
           <div className="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
             <motion.div
@@ -89,25 +104,25 @@ export default function TemplateHome() {
               transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
               className="md:col-span-7 text-left"
             >
-              <span className="text-[11px] font-mono tracking-[0.25em] text-gray-500 uppercase block mb-3">
+              <span className={`text-[11px] font-mono tracking-[0.25em] ${isDark ? "text-zinc-400" : "text-gray-500"} uppercase block mb-3`}>
                 COLLECTION 01 — MINIMAL FORM
               </span>
-              <h1 className="text-3xl sm:text-4xl md:text-6xl font-light text-gray-900 leading-tight tracking-tight">
+              <h1 className={`text-3xl sm:text-4xl md:text-6xl font-light ${isDark ? "text-white" : "text-gray-900"} leading-tight tracking-tight`}>
                 {template.hero.title}
               </h1>
-              <p className="mt-3 sm:mt-4 text-gray-600 text-sm sm:text-base leading-relaxed max-w-lg">
+              <p className={`mt-3 sm:mt-4 ${isDark ? "text-zinc-400" : "text-gray-600"} text-sm sm:text-base leading-relaxed max-w-lg`}>
                 {template.hero.subtitle}
               </p>
               <div className="flex flex-wrap items-center gap-5 mt-6 sm:mt-8">
                 <Link
                   to={`/template/${templateId}/shop`}
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-gray-900 border-b-2 border-gray-900 pb-1 hover:opacity-70 transition-opacity min-h-11"
+                  className={`inline-flex items-center gap-2 text-sm font-semibold ${isDark ? "text-white border-white" : "text-gray-900 border-gray-900"} border-b-2 pb-1 hover:opacity-70 transition-opacity min-h-11`}
                 >
                   {template.hero.ctaText} <ArrowRight size={16} />
                 </Link>
                 <Link
                   to={`/template/${templateId}/shop?category=Fashion`}
-                  className="text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors min-h-11 inline-flex items-center"
+                  className={`text-sm font-medium ${isDark ? "text-zinc-400 hover:text-white" : "text-gray-500 hover:text-gray-900"} transition-colors min-h-11 inline-flex items-center`}
                 >
                   View Lookbook
                 </Link>
@@ -120,8 +135,8 @@ export default function TemplateHome() {
               transition={{ duration: 0.3, delay: 0.1 }}
               className="md:col-span-5 flex justify-center"
             >
-              <div className="w-full max-w-xs sm:max-w-sm aspect-square bg-white border border-gray-200/70 p-6 sm:p-8 shadow-xs flex items-center justify-center relative group rounded-md">
-                <span className="absolute top-4 left-4 text-[10px] font-mono text-gray-400 uppercase tracking-widest">
+              <div className={`w-full max-w-xs sm:max-w-sm aspect-square ${isDark ? "bg-zinc-900 border-zinc-800" : "bg-white border-gray-200/70"} border p-6 sm:p-8 shadow-xs flex items-center justify-center relative group rounded-md`}>
+                <span className={`absolute top-4 left-4 text-[10px] font-mono ${isDark ? "text-zinc-500" : "text-gray-400"} uppercase tracking-widest`}>
                   Featured Object
                 </span>
                 <img
@@ -271,17 +286,7 @@ export default function TemplateHome() {
               <p className="mt-3 text-white/90 text-sm sm:text-base max-w-xl">{template.hero.subtitle}</p>
 
               {/* Live Countdown Timer */}
-              <div className="mt-5 p-3.5 rounded-2xl bg-black/25 backdrop-blur-md inline-flex items-center gap-3">
-                <Clock size={16} className="text-amber-300 animate-pulse" />
-                <span className="text-xs font-bold uppercase tracking-wider text-amber-200">Deals End In:</span>
-                <div className="flex items-center gap-1.5 font-mono font-black text-sm text-white">
-                  <span className="bg-white/20 px-2 py-0.5 rounded">{String(timeLeft.hours).padStart(2, "0")}h</span>
-                  <span>:</span>
-                  <span className="bg-white/20 px-2 py-0.5 rounded">{String(timeLeft.minutes).padStart(2, "0")}m</span>
-                  <span>:</span>
-                  <span className="bg-white/20 px-2 py-0.5 rounded">{String(timeLeft.seconds).padStart(2, "0")}s</span>
-                </div>
-              </div>
+              <MarketplaceCountdown />
 
               <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 mt-6">
                 <Link
@@ -637,11 +642,21 @@ export default function TemplateHome() {
   };
 
   const productGridClass = "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8";
-  const sectionBg = isDark ? "bg-[#0d0d0d]" : "bg-white";
-  const sectionBgAlt = isDark ? "bg-[#111]" : "bg-[#f8fafc]";
+  const isMinimal = templateId === "minimal";
+  const isForma = templateId === "premium";
+  const isFashion = templateId === "fashion";
+
+  const sectionBg = isDark
+    ? (isMinimal ? "bg-[#09090b]" : isForma ? "bg-[#161412]" : isFashion ? "bg-black" : "bg-[#0d0d0d]")
+    : (isForma ? "bg-[#fcfaf7]" : "bg-white");
+
+  const sectionBgAlt = isDark
+    ? (isMinimal ? "bg-[#121214]" : isForma ? "bg-[#1e1b18]" : isFashion ? "bg-neutral-900" : "bg-[#141416]")
+    : (isForma ? "bg-[#f5f2ec]" : isMinimal ? "bg-neutral-50" : "bg-[#f8fafc]");
+
   const headingColor = isDark ? "text-white" : "text-gray-900";
   const mutedText = isDark ? "text-zinc-400" : "text-gray-500";
-  const borderColor = isDark ? "border-zinc-800" : "border-slate-100";
+  const borderColor = isDark ? (isForma ? "border-[#332d26]" : "border-zinc-800") : (isForma ? "border-[#e8e4de]" : "border-slate-100");
 
   return (
     <div>
@@ -649,232 +664,242 @@ export default function TemplateHome() {
       {heroStyles[templateId]}
 
       {/* Categories Grid with Scroll Reveal */}
-      <Reveal className={`${sectionBg} py-12 md:py-20`}>
+      <section className={`${sectionBg} py-12 md:py-20 transition-colors`}>
         <Container>
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-blue-600 block mb-1">
-                Explore Collections
-              </span>
-              <h2 className={`text-2xl sm:text-3xl font-extrabold ${headingColor}`} style={{ fontFamily: template.theme.fontDisplay }}>
-                Shop by Category
-              </h2>
-            </div>
-            <Link
-              to={`/template/${templateId}/shop`}
-              className={`text-sm font-semibold ${mutedText} hover:text-blue-600 transition-colors flex items-center gap-1 min-h-11`}
-            >
-              View All <ChevronRight size={16} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {featuredCategories.map((cat) => (
-              <Link
-                key={cat.id}
-                to={`/template/${templateId}/shop?category=${encodeURIComponent(cat.name)}`}
-                className={`group relative overflow-hidden aspect-4/5 md:aspect-4/3 rounded-2xl flex items-end p-4 sm:p-5 transition-all duration-300 hover:shadow-xl border ${
-                  isDark ? "border-zinc-800 bg-zinc-900" : "border-slate-100 bg-slate-50"
-                }`}
-                style={{ borderRadius: template.theme.radius === "0px" ? "0" : undefined }}
-              >
-                <img
-                  src={cat.image}
-                  alt={cat.name}
-                  className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                  onError={handleImageError}
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/40 to-transparent transition-opacity group-hover:opacity-90" />
-                <div className="relative z-10 text-white text-left">
-                  <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 block mb-0.5">
-                    {cat.tagline || "Collection"}
-                  </span>
-                  <h3 className="font-bold text-sm sm:text-base text-white group-hover:translate-x-0.5 transition-transform">
-                    {cat.name}
-                  </h3>
-                  <p className="text-xs text-white/80">{getCategoryItemCount(cat.name)}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Container>
-      </Reveal>
-
-      {/* Featured Products with Sliding Pill Filter for Clean Commerce (01) */}
-      <Reveal className={`${sectionBgAlt} py-12 md:py-20 border-t ${borderColor}`}>
-        <Container>
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-            <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-blue-600 block mb-1">
-                Top Rated Picks
-              </span>
-              <h2 className={`text-2xl sm:text-3xl font-extrabold ${headingColor}`} style={{ fontFamily: template.theme.fontDisplay }}>
-                Featured Products
-              </h2>
-            </div>
-
-            {/* Template 01 sliding pill filter tabs */}
-            {templateId === "minimal" ? (
-              <div className="flex items-center gap-1 p-1 rounded-full bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700">
-                {[
-                  { id: "all", label: "All" },
-                  { id: "smartphones", label: "Smartphones" },
-                  { id: "fashion", label: "Fashion" },
-                  { id: "accessories", label: "Accessories" },
-                ].map((pill) => {
-                  const active = minimalFilter === pill.id;
-                  return (
-                    <button
-                      key={pill.id}
-                      onClick={() => setMinimalFilter(pill.id)}
-                      className={`relative px-3.5 py-1 text-xs font-semibold rounded-full transition-colors cursor-pointer ${
-                        active
-                          ? isDark ? "text-white" : "text-black"
-                          : isDark ? "text-zinc-400 hover:text-white" : "text-slate-500 hover:text-black"
-                      }`}
-                    >
-                      {active && (
-                        <motion.div
-                          layoutId="minimal-pill-highlight"
-                          className={`absolute inset-0 rounded-full shadow-xs ${
-                            isDark ? "bg-zinc-700" : "bg-white"
-                          }`}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
-                      <span className="relative z-10">{pill.label}</span>
-                    </button>
-                  );
-                })}
+          <Reveal>
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="text-xs uppercase font-bold tracking-widest text-blue-600 block mb-1">
+                  Explore Collections
+                </span>
+                <h2 className={`text-2xl sm:text-3xl font-extrabold ${headingColor}`} style={{ fontFamily: template.theme.fontDisplay }}>
+                  Shop by Category
+                </h2>
               </div>
-            ) : (
               <Link
                 to={`/template/${templateId}/shop`}
                 className={`text-sm font-semibold ${mutedText} hover:text-blue-600 transition-colors flex items-center gap-1 min-h-11`}
               >
-                Browse Shop <ChevronRight size={16} />
+                View All <ChevronRight size={16} />
               </Link>
-            )}
-          </div>
+            </div>
 
-          <motion.div layout className={productGridClass}>
-            <AnimatePresence mode="popLayout">
-              {displayedFeatured.map((product) => (
-                <motion.div
-                  layout
-                  key={product.id}
-                  initial={{ opacity: 0, scale: 0.95 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
-                  transition={{ duration: 0.2 }}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {featuredCategories.map((cat) => (
+                <Link
+                  key={cat.id}
+                  to={`/template/${templateId}/shop?category=${encodeURIComponent(cat.name)}`}
+                  className={`group relative overflow-hidden aspect-4/5 md:aspect-4/3 rounded-2xl flex items-end p-4 sm:p-5 transition-all duration-300 hover:shadow-xl border ${
+                    isDark ? "border-zinc-800 bg-zinc-900" : "border-slate-100 bg-slate-50"
+                  }`}
+                  style={{ borderRadius: template.theme.radius === "0px" ? "0" : undefined }}
                 >
-                  <ProductCard product={product} templateId={templateId} />
-                </motion.div>
+                  <img
+                    src={cat.image}
+                    alt={cat.name}
+                    className="absolute inset-0 w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    onError={handleImageError}
+                  />
+                  <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/40 to-transparent transition-opacity group-hover:opacity-90" />
+                  <div className="relative z-10 text-white text-left">
+                    <span className="text-[10px] uppercase font-bold tracking-widest text-amber-300 block mb-0.5">
+                      {cat.tagline || "Collection"}
+                    </span>
+                    <h3 className="font-bold text-sm sm:text-base text-white group-hover:translate-x-0.5 transition-transform">
+                      {cat.name}
+                    </h3>
+                    <p className="text-xs text-white/80">{getCategoryItemCount(cat.name)}</p>
+                  </div>
+                </Link>
               ))}
-            </AnimatePresence>
-          </motion.div>
+            </div>
+          </Reveal>
         </Container>
-      </Reveal>
+      </section>
+
+      {/* Featured Products with Sliding Pill Filter for Clean Commerce (01) */}
+      <section className={`${sectionBgAlt} py-12 md:py-20 border-t ${borderColor} transition-colors`}>
+        <Container>
+          <Reveal>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+              <div>
+                <span className="text-xs uppercase font-bold tracking-widest text-blue-600 block mb-1">
+                  Top Rated Picks
+                </span>
+                <h2 className={`text-2xl sm:text-3xl font-extrabold ${headingColor}`} style={{ fontFamily: template.theme.fontDisplay }}>
+                  Featured Products
+                </h2>
+              </div>
+
+              {/* Template 01 sliding pill filter tabs */}
+              {templateId === "minimal" ? (
+                <div className="flex items-center gap-1 p-1 rounded-full bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700">
+                  {[
+                    { id: "all", label: "All" },
+                    { id: "smartphones", label: "Smartphones" },
+                    { id: "fashion", label: "Fashion" },
+                    { id: "accessories", label: "Accessories" },
+                  ].map((pill) => {
+                    const active = minimalFilter === pill.id;
+                    return (
+                      <button
+                        key={pill.id}
+                        onClick={() => setMinimalFilter(pill.id)}
+                        className={`relative px-3.5 py-1 text-xs font-semibold rounded-full transition-colors cursor-pointer ${
+                          active
+                            ? isDark ? "text-white" : "text-black"
+                            : isDark ? "text-zinc-400 hover:text-white" : "text-slate-500 hover:text-black"
+                        }`}
+                      >
+                        {active && (
+                          <motion.div
+                            layoutId="minimal-pill-highlight"
+                            className={`absolute inset-0 rounded-full shadow-xs ${
+                              isDark ? "bg-zinc-700" : "bg-white"
+                            }`}
+                            transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                          />
+                        )}
+                        <span className="relative z-10">{pill.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              ) : (
+                <Link
+                  to={`/template/${templateId}/shop`}
+                  className={`text-sm font-semibold ${mutedText} hover:text-blue-600 transition-colors flex items-center gap-1 min-h-11`}
+                >
+                  Browse Shop <ChevronRight size={16} />
+                </Link>
+              )}
+            </div>
+
+            <motion.div layout className={productGridClass}>
+              <AnimatePresence mode="popLayout">
+                {displayedFeatured.map((product) => (
+                  <motion.div
+                    layout
+                    key={product.id}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <ProductCard product={product} templateId={templateId} />
+                  </motion.div>
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </Reveal>
+        </Container>
+      </section>
 
       {/* High-Impact Promo Banner */}
-      <Reveal className={`${sectionBg} py-12 md:py-20 border-t ${borderColor}`}>
+      <section className={`${sectionBg} py-12 md:py-20 border-t ${borderColor} transition-colors`}>
         <Container>
-          <div
-            className={`${
-              isDark
-                ? "bg-linear-to-r from-orange-500/20 via-zinc-900 to-zinc-900 border-zinc-700"
-                : "bg-linear-to-r from-slate-900 via-indigo-950 to-slate-900 text-white border-slate-800"
-            } border p-6 sm:p-10 md:p-12 rounded-2xl sm:rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden`}
-            style={{ borderRadius: template.theme.radius === "0px" ? "0" : undefined }}
-          >
-            <div className="relative z-10 max-w-xl text-center md:text-left">
-              <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-amber-300 inline-block mb-3">
-                Storefront Special
-              </span>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
-                Get 20% Off Your Entire Order
-              </h3>
-              <p className="mt-2 text-slate-300 text-sm sm:text-base">
-                Apply coupon code{" "}
-                <span className="font-mono font-bold text-amber-300 bg-white/15 px-2.5 py-1 rounded-md inline-block">
-                  WELCOME20
-                </span>{" "}
-                at checkout on any order over $50.
-              </p>
-            </div>
-            <Link
-              to={`/template/${templateId}/shop`}
-              className={`relative z-10 w-full md:w-auto inline-flex items-center justify-center min-h-11 px-8 py-3.5 font-bold text-sm transition-all duration-300 shrink-0 cursor-pointer ${
+          <Reveal>
+            <div
+              className={`${
                 isDark
-                  ? "bg-orange-500 text-black hover:bg-orange-400 rounded-xl shadow-lg shadow-orange-500/25"
-                  : "bg-white text-slate-900 hover:bg-slate-100 rounded-xl shadow-lg hover:-translate-y-0.5"
-              }`}
+                  ? "bg-linear-to-r from-orange-500/20 via-zinc-900 to-zinc-900 border-zinc-700"
+                  : "bg-linear-to-r from-slate-900 via-indigo-950 to-slate-900 text-white border-slate-800"
+              } border p-6 sm:p-10 md:p-12 rounded-2xl sm:rounded-3xl flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden`}
               style={{ borderRadius: template.theme.radius === "0px" ? "0" : undefined }}
             >
-              Shop Deals Now
-            </Link>
-          </div>
+              <div className="relative z-10 max-w-xl text-center md:text-left">
+                <span className="px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-xs font-semibold uppercase tracking-wider text-amber-300 inline-block mb-3">
+                  Storefront Special
+                </span>
+                <h3 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white leading-tight">
+                  Get 20% Off Your Entire Order
+                </h3>
+                <p className="mt-2 text-slate-300 text-sm sm:text-base">
+                  Apply coupon code{" "}
+                  <span className="font-mono font-bold text-amber-300 bg-white/15 px-2.5 py-1 rounded-md inline-block">
+                    WELCOME20
+                  </span>{" "}
+                  at checkout on any order over $50.
+                </p>
+              </div>
+              <Link
+                to={`/template/${templateId}/shop`}
+                className={`relative z-10 w-full md:w-auto inline-flex items-center justify-center min-h-11 px-8 py-3.5 font-bold text-sm transition-all duration-300 shrink-0 cursor-pointer ${
+                  isDark
+                    ? "bg-orange-500 text-black hover:bg-orange-400 rounded-xl shadow-lg shadow-orange-500/25"
+                    : "bg-white text-slate-900 hover:bg-slate-100 rounded-xl shadow-lg hover:-translate-y-0.5"
+                }`}
+                style={{ borderRadius: template.theme.radius === "0px" ? "0" : undefined }}
+              >
+                Shop Deals Now
+              </Link>
+            </div>
+          </Reveal>
         </Container>
-      </Reveal>
+      </section>
 
       {/* Trending Now */}
-      <Reveal className={`${sectionBgAlt} py-12 md:py-20 border-t ${borderColor}`}>
+      <section className={`${sectionBgAlt} py-12 md:py-20 border-t ${borderColor} transition-colors`}>
         <Container>
-          <div className="flex items-center justify-between mb-8">
-            <div>
-              <span className="text-xs uppercase font-bold tracking-widest text-blue-600 block mb-1">
-                Customer Favorites
-              </span>
-              <h2 className={`text-2xl sm:text-3xl font-extrabold ${headingColor}`} style={{ fontFamily: template.theme.fontDisplay }}>
-                Trending Now
-              </h2>
+          <Reveal>
+            <div className="flex items-center justify-between mb-8">
+              <div>
+                <span className="text-xs uppercase font-bold tracking-widest text-blue-600 block mb-1">
+                  Customer Favorites
+                </span>
+                <h2 className={`text-2xl sm:text-3xl font-extrabold ${headingColor}`} style={{ fontFamily: template.theme.fontDisplay }}>
+                  Trending Now
+                </h2>
+              </div>
+              <Link
+                to={`/template/${templateId}/shop?sort=popular`}
+                className={`text-sm font-semibold ${mutedText} hover:text-blue-600 transition-colors flex items-center gap-1 min-h-11`}
+              >
+                See All <ChevronRight size={16} />
+              </Link>
             </div>
-            <Link
-              to={`/template/${templateId}/shop?sort=popular`}
-              className={`text-sm font-semibold ${mutedText} hover:text-blue-600 transition-colors flex items-center gap-1 min-h-11`}
-            >
-              See All <ChevronRight size={16} />
-            </Link>
-          </div>
 
-          <div className={productGridClass}>
-            {trendingProducts.map((product) => (
-              <ProductCard key={product.id} product={product} templateId={templateId} />
-            ))}
-          </div>
+            <div className={productGridClass}>
+              {trendingProducts.map((product) => (
+                <ProductCard key={product.id} product={product} templateId={templateId} />
+              ))}
+            </div>
+          </Reveal>
         </Container>
-      </Reveal>
+      </section>
 
       {/* Services / Trust Badges */}
-      <Reveal className={`${sectionBg} py-12 md:py-20 border-t ${borderColor}`}>
+      <section className={`${sectionBg} py-12 md:py-20 border-t ${borderColor} transition-colors`}>
         <Container>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {[
-              { icon: Truck, title: "Free Global Shipping", desc: "On all orders above $50" },
-              { icon: Shield, title: "Secure Checkout", desc: "Bank-grade encrypted payments" },
-              { icon: RotateCcw, title: "30-Day Easy Returns", desc: "Hassle-free return policy" },
-              { icon: Headphones, title: "24/7 Dedicated Support", desc: "Instant response team" },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div
-                key={title}
-                className={`text-center p-5 sm:p-6 rounded-2xl flex flex-col items-center justify-center ${
-                  isDark ? "bg-zinc-900 border border-zinc-800" : "bg-white border border-slate-100 shadow-xs"
-                }`}
-              >
+          <Reveal>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {[
+                { icon: Truck, title: "Free Global Shipping", desc: "On all orders above $50" },
+                { icon: Shield, title: "Secure Checkout", desc: "Bank-grade encrypted payments" },
+                { icon: RotateCcw, title: "30-Day Easy Returns", desc: "Hassle-free return policy" },
+                { icon: Headphones, title: "24/7 Dedicated Support", desc: "Instant response team" },
+              ].map(({ icon: Icon, title, desc }) => (
                 <div
-                  className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3.5 ${
-                    isDark ? "bg-orange-500/10 text-orange-400" : "bg-blue-50 text-blue-600"
+                  key={title}
+                  className={`text-center p-5 sm:p-6 rounded-2xl flex flex-col items-center justify-center ${
+                    isDark ? "bg-zinc-900 border border-zinc-800" : "bg-white border border-slate-100 shadow-xs"
                   }`}
                 >
-                  <Icon size={24} strokeWidth={1.75} />
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center mb-3.5 ${
+                      isDark ? "bg-orange-500/10 text-orange-400" : "bg-blue-50 text-blue-600"
+                    }`}
+                  >
+                    <Icon size={24} strokeWidth={1.75} />
+                  </div>
+                  <h4 className={`font-bold text-xs sm:text-sm ${headingColor}`}>{title}</h4>
+                  <p className={`text-[11px] sm:text-xs ${mutedText} mt-1 leading-relaxed`}>{desc}</p>
                 </div>
-                <h4 className={`font-bold text-xs sm:text-sm ${headingColor}`}>{title}</h4>
-                <p className={`text-[11px] sm:text-xs ${mutedText} mt-1 leading-relaxed`}>{desc}</p>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          </Reveal>
         </Container>
-      </Reveal>
+      </section>
 
       {/* Newsletter */}
       <section className={`${isDark ? "bg-zinc-900 border-t border-zinc-800" : "bg-slate-900"} py-14 sm:py-20 text-white`}>

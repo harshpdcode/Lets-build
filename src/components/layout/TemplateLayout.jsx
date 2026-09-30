@@ -332,7 +332,7 @@ export default function TemplateLayout() {
 
       {/* Main Outlet for Store Pages */}
       <main className="min-h-[70vh]">
-        <Outlet context={{ template, templateId }} />
+        <Outlet context={{ template, templateId, isDark }} />
       </main>
 
       {/* Storefront Footer */}
