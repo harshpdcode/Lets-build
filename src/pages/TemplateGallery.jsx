@@ -470,13 +470,15 @@ export default function TemplateGallery() {
         <nav className="relative z-10 border-b border-slate-800/60">
           <Container className="py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-linear-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-lg shadow-indigo-500/25 shrink-0">
-                <span className="text-white font-extrabold text-sm tracking-wider">LB</span>
-              </div>
+              <img
+                src="/logo.png"
+                alt="LET'S BUILD Logo"
+                className="w-10 h-10 rounded-xl object-contain shadow-lg shadow-cyan-500/20 shrink-0 border border-slate-800"
+              />
               <div>
                 <span className="text-white font-extrabold text-base tracking-tight block">LET'S BUILD</span>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 block -mt-1">
-                  E-Commerce Architecture
+                <span className="text-[10px] font-mono uppercase tracking-widest text-cyan-400 block -mt-0.5">
+                  Ideas • Websites • Solutions
                 </span>
               </div>
             </div>
@@ -890,9 +892,11 @@ export default function TemplateGallery() {
       <footer className="border-t border-slate-900 bg-[#05060a] py-8 text-center sm:text-left">
         <Container className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-linear-to-br from-indigo-500 to-violet-500 flex items-center justify-center">
-              <span className="text-white font-extrabold text-xs">LB</span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="LET'S BUILD"
+              className="w-7 h-7 rounded-lg object-contain shrink-0 border border-slate-800"
+            />
             <span className="text-xs sm:text-sm font-bold text-white tracking-tight">LET'S BUILD</span>
             <span className="text-slate-600">·</span>
             <span className="text-xs text-slate-400">Multi-Template E-Commerce Suite</span>

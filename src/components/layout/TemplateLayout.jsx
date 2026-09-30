@@ -98,10 +98,12 @@ export default function TemplateLayout() {
         <Container className="flex items-center justify-between gap-4">
           <Link
             to="/"
-            className="flex items-center gap-1.5 font-semibold text-slate-300 hover:text-white transition-colors shrink-0 min-h-9"
+            className="flex items-center gap-2 font-semibold text-slate-300 hover:text-white transition-colors shrink-0 min-h-9"
           >
             <ChevronLeft size={16} />
-            <span className="hidden sm:inline">LET'S BUILD</span>
+            <img src="/logo.png" alt="LET'S BUILD" className="w-5 h-5 rounded-sm object-contain border border-slate-700" />
+            <span className="hidden sm:inline font-bold">LET'S BUILD</span>
+            <span className="text-slate-400">·</span>
             <span>All Templates</span>
           </Link>
 
